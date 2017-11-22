@@ -1,40 +1,50 @@
 let yargs = require('yargs')
 let chalk = require('chalk')
 
-// console.log(chalk.red.bold(yargs.argv['_']))
-
 let input = yargs.argv['_'][0]
 
-let newGameMessage = `Welcome to RoShamBo`
+let newGameMessage = `Welcome to RoShamBo. Type 'node main [rock, paper, or scissors]' to play.`
 
-class Rock {
-    constructor(rival){
-        console.log(this.rival)
+function interface(input){
+    (!input) ? console.log(newGameMessage) : null
+    let thisPlayer = new Player(input)
+    thisPlayer.battle()
+    let thisComputer = new Computer()
+    thisComputer.battle()
+    let thisGame = new Game(thisPlayer, thisComputer)
+}
+
+class Player {
+    constructor(move){
+        this.move = move
     }
-    battle(rival){
-        this.rival = rival
-        if(this.rival === 'paper') return true
-        if(this.rival === 'scissors') return false
+    battle(){
+        console.log(chalk.magenta(`Player chooses ${this.move}`))
     }
 }
 
-class Paper {
-    constructor(rival){
+class Computer extends Player {
+    constructor(move, computerMove){
+        super()
+        this.move = move
+        this.computerMove = computerMove
+    }
+    battle(move, computerMove){
+        let moves = ['rock', 'paper', 'scissors']
+        let moveIndex = this.randomMove()
+        let chosenMove = moves[moveIndex]
+        console.log(chalk.green(`Computer chooses ${chosenMove}`))
+    }
+    randomMove(){
+        let randomNum = Math.floor(Math.random() * 3)
+        return randomNum
+    }
+}
+
+class Game {
+    constructor(move, computerMove){
         
     }
 }
 
-class Scissors {
-    constructor(rival){
-        
-    }
-}
-
-function computerPlay(){
-
-}
-
-// console.log(chalk.magenta`Welcome to RoShamBo`)
-// console.log(`You played ${input}!`)
-// console.log(`The computer played scissors!`)
-// console.log(`You lost...`)
+interface(input)
