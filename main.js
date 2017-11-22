@@ -5,34 +5,41 @@ let input = yargs.argv['_'][0]
 
 let newGameMessage = `Welcome to RoShamBo. Type 'node main [rock, paper, or scissors]' to play.`
 
+let rock = { rock: `It's a tie`, paper: `You lose`, scissors: `You win!!!` }
+let scissors = {rock: `You lose`, paper: `You win`, scissors: `It's a tie`}
+let paper = {rock: `You win!!!`, paper: `It's a tie`, scissors: `You lose`}
+
 function interface(input){
     (!input) ? console.log(newGameMessage) : null
     let thisPlayer = new Player(input)
-    thisPlayer.battle()
+    thisPlayer.choice()
     let thisComputer = new Computer()
-    thisComputer.battle()
+    thisComputer.choice()
     let thisGame = new Game(thisPlayer, thisComputer)
+    // console.log(thisGame)
+    thisGame.battle()
 }
 
 class Player {
     constructor(move){
         this.move = move
     }
-    battle(){
+    choice(){
         console.log(chalk.magenta(`Player chooses ${this.move}`))
     }
 }
 
 class Computer extends Player {
-    constructor(move, computerMove){
+    constructor(move){
         super()
         this.move = move
-        this.computerMove = computerMove
+        
     }
-    battle(move, computerMove){
+    choice(move, computerMove){
         let moves = ['rock', 'paper', 'scissors']
         let moveIndex = this.randomMove()
         let chosenMove = moves[moveIndex]
+        this.move = chosenMove
         console.log(chalk.green(`Computer chooses ${chosenMove}`))
     }
     randomMove(){
@@ -42,7 +49,12 @@ class Computer extends Player {
 }
 
 class Game {
-    constructor(move, computerMove){
+    constructor(player, computer){
+        this.player = player
+        this.computer = computer
+    }
+    battle(){
+        console.log(this.player.move, this.computer.move)
         
     }
 }
