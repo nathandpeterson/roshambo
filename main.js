@@ -5,9 +5,11 @@ let input = yargs.argv['_'][0]
 
 let newGameMessage = `Welcome to RoShamBo. Type 'node main [rock, paper, or scissors]' to play.`
 
-let rock = { rock: `It's a tie`, paper: `You lose`, scissors: `You win!!!` }
-let scissors = {rock: `You lose`, paper: `You win`, scissors: `It's a tie`}
-let paper = {rock: `You win!!!`, paper: `It's a tie`, scissors: `You lose`}
+let results = {
+   rock: { rock: `It's a tie`, paper: `You lose`, scissors: `You win!!!` },
+   paper: {rock: `You win!!!`, paper: `It's a tie`, scissors: `You lose`},
+   scissors : {rock: `You lose`, paper: `You win`, scissors: `It's a tie`}
+} 
 
 function interface(input){
     (!input) ? console.log(newGameMessage) : null
@@ -16,7 +18,6 @@ function interface(input){
     let thisComputer = new Computer()
     thisComputer.choice()
     let thisGame = new Game(thisPlayer, thisComputer)
-    // console.log(thisGame)
     thisGame.battle()
 }
 
@@ -25,7 +26,7 @@ class Player {
         this.move = move
     }
     choice(){
-        console.log(chalk.magenta(`Player chooses ${this.move}`))
+        console.log(chalk.bgYellow(`Player chooses ${this.move}`))
     }
 }
 
@@ -40,7 +41,7 @@ class Computer extends Player {
         let moveIndex = this.randomMove()
         let chosenMove = moves[moveIndex]
         this.move = chosenMove
-        console.log(chalk.green(`Computer chooses ${chosenMove}`))
+        console.log(chalk.bgBlackBright(`Computer chooses ${chosenMove}`))
     }
     randomMove(){
         let randomNum = Math.floor(Math.random() * 3)
@@ -54,8 +55,7 @@ class Game {
         this.computer = computer
     }
     battle(){
-        console.log(this.player.move, this.computer.move)
-        
+        console.log(chalk.bgCyan(results[this.player.move][this.computer.move]))
     }
 }
 
